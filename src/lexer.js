@@ -38,7 +38,6 @@ class Lexer {
             this.textList[x] = this.textList[x].toUpperCase()
         }
         this.position = -1;
-        this.check_position = -1
         this.current_data = null
 
         this.advance()
@@ -46,9 +45,6 @@ class Lexer {
 
     advance() {
         this.position += 1
-        if (this.check_position + 1 === this.position) {
-            this.check_position += 1
-        }
         if (this.position < this.textList.length) {
             this.current_data = this.textList[this.position]
         } else {
@@ -66,9 +62,7 @@ class Lexer {
             } else if (!isNaN(this.current_data)) {
                 tokenList.push(new Token("NUM", Number(this.current_data)))
                 this.advance()
-            } else if (
-                (tokenList[-1].token_type === "INST" && tokenList[-1].value !== "DAT") 
-                ) {
+            } else {
                 tokenList.push(new Token("VAR", this.current_data))
                 this.advance()
             }
