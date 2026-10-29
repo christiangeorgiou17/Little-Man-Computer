@@ -1,5 +1,6 @@
-import { Lexer, InstructionGenerator } from "./lexer.js"
+import { Lexer } from "./lexer.js"
 import { Assembler, MEMORY } from "./assembler.js"
+import { InstructionGenerator } from "./instructiongenerator.js"
 
 
 
@@ -10,6 +11,4 @@ function translate(text) {
     const instructionsList = instGenerator.generate()
     const assembler = new Assembler(instructionsList)
     assembler.convert()
-
 }
-

@@ -1,4 +1,4 @@
-import { BranchInstruction, OperatorInstruction, SystemInstruction, AssignmentInstruction } from "./lexer.js"
+import { BranchInstruction, OperatorInstruction, SystemInstruction, AssignmentInstruction } from "./instructiongenerator.js"
 
 
 const INSTRUCTION_TABLE = {
