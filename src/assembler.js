@@ -36,11 +36,10 @@ Assembler is probably not the best name for this section as its the name of the 
 but I couldnt think of a better name - this section converts the list of Instruction generated
 in lexer.js by Lexer and InstructionGenerator into machine code in denary - e.g. INP becomes 901
 */
-class Assmebler {
+export class Assembler {
     constructor(instructions) {
         this.instructions = instructions;
         this.position = -1
-        this.check_position = -1
         this.current_instruction = null
         this.advance()
     }
@@ -88,16 +87,16 @@ class Assmebler {
                 MEMORY[this.current_instruction.memoryLocation] = INSTRUCTION_TABLE[this.current_instruction.instruction]
                 this.advance()
             } else if (this.current_instruction instanceof AssignmentInstruction) {
-                MEMORY[this.current_instruction.memoryLocation] = Assmebler.format(this.current_instruction.value)
+                MEMORY[this.current_instruction.memoryLocation] = Assembler.format(this.current_instruction.value)
                 this.advance()
             } else if (this.current_instruction instanceof BranchInstruction) {
                 let branchLocation = this.findMemoryLocation(this.current_instruction.branchTo, "BRANCH")
-                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assmebler.format(branchLocation, 2)
+                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assembler.format(branchLocation, 2)
                 MEMORY[this.current_instruction.memoryLocation] = formatted
                 this.advance()
             } else if (this.current_instruction instanceof OperatorInstruction) {
                 let varLocation = this.findMemoryLocation(this.current_instruction.variable, "VAR")
-                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assmebler.format(varLocation, 2)
+                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assembler.format(varLocation, 2)
                 MEMORY[this.current_instruction.memoryLocation] = formatted
                 this.advance()
             }

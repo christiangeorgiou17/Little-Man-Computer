@@ -103,7 +103,7 @@ export class AssignmentInstruction extends Instruction {
 
 
 
-class Lexer {
+export class Lexer {
     constructor(text) {
         this.text = text;
         this.textList = text.split(/\s+/);
@@ -148,7 +148,7 @@ class Lexer {
 
 
 
-class InstructionGenerator {
+export class InstructionGenerator {
     constructor(tokenList) {
         this.tokens = tokenList;
         this.position = -1;
@@ -220,12 +220,4 @@ class InstructionGenerator {
 
         return instructionList
     }
-}
-
-
-export function getInstructionList(text) {
-    const lexer = new Lexer(text)
-    const tokens = lexer.tokenise()
-    const instGenerator = new InstructionGenerator(tokens)
-    return instGenerator.generate();
 }
