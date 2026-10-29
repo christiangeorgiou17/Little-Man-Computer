@@ -36,7 +36,7 @@ const INSTRUCTIONS = OPERATOR_INSTRUCTIONS.concat(SYSTEM_INSTRUCTIONS, BRANCH_IN
 
 
 
-class Instruction {
+export class Instruction {
     constructor(tokenList, instruction, memoryLocation) {
         this.tokens = tokenList
         this.instruction = instruction
@@ -49,7 +49,7 @@ class Instruction {
     }
 }
 
-class BranchInstruction extends Instruction {
+export class BranchInstruction extends Instruction {
     // BRA BRP BRZ
     constructor(tokenList, instruction, memoryLocation) {
         super(tokenList, instruction, memoryLocation)
@@ -63,7 +63,7 @@ class BranchInstruction extends Instruction {
     }
 }
 
-class OperatorInstruction extends Instruction {
+export class OperatorInstruction extends Instruction {
     // ADD SUB LDA STA
     constructor(tokenList, instruction, memoryLocation) {
         super(tokenList, instruction, memoryLocation)
@@ -77,7 +77,7 @@ class OperatorInstruction extends Instruction {
     }
 }
 
-class SystemInstructions extends Instruction {
+export class SystemInstruction extends Instruction {
     // INP OUT HLT
     constructor(tokenList, instruction, memoryLocation) {
         super(tokenList, instruction, memoryLocation)
@@ -89,7 +89,7 @@ class SystemInstructions extends Instruction {
     }
 }
 
-class AssignmentInstruction extends Instruction {
+export class AssignmentInstruction extends Instruction {
     // DAT
     constructor(tokenList, memoryLocation) {
         super(tokenList, "DAT", memoryLocation)
@@ -175,7 +175,7 @@ class InstructionGenerator {
         if (OPERATOR_INSTRUCTIONS.includes(instruction)) {
             return new OperatorInstruction(tokenList, instruction, memorylocation)
         } else if (SYSTEM_INSTRUCTIONS.includes(instruction)) {
-            return new SystemInstructions(tokenList, instruction, memorylocation)
+            return new SystemInstruction(tokenList, instruction, memorylocation)
         } else if (BRANCH_INSTRUCTIONS.includes(instruction)) {
             return new BranchInstruction(tokenList, instruction, memorylocation)
         } else if (instruction === "DAT") {
