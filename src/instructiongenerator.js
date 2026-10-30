@@ -80,7 +80,11 @@ export class AssignmentInstruction extends Instruction {
     constructor(tokenList, memoryLocation) {
         super(tokenList, "DAT", memoryLocation)
         this.variable = tokenList[0].value
-        this.value = tokenList[2].value
+        if (tokenList.length === 3) {
+            this.value = tokenList[2].value
+        } else {
+            this.value = 0
+        }
     }
 }
 
@@ -133,10 +137,10 @@ export class InstructionGenerator {
                     (this.current_data.token_type === "NUM" && current_instruction.length > 0)) {
                 current_instruction.push(this.current_data)
                 this.advance();
-            } else if ((this.current_data.value === "INP" || 
-                    this.current_data.value === "OUT" || 
-                    this.current_data.value === "HLT") &&
-                    current_instruction.length <= 1) {
+            } else if (((this.current_data.value === "INP" || 
+                    this.current_data.value === "OUT" || this.current_data.value === "HLT") &&
+                    current_instruction.length <= 1) || 
+                    (this.current_data.value === "DAT" && current_instruction.length === 1)) {
                 current_instruction.push(this.current_data);
                 instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
                 current_instruction = []
