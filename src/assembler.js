@@ -82,7 +82,7 @@ export class Assembler {
 
     convert() {
 
-        while (this.current_instruction !== null) {
+        while (this.current_instruction !== null && this.instructions !== "Error") {
             if (this.current_instruction instanceof SystemInstruction) {
                 MEMORY[this.current_instruction.memoryLocation] = INSTRUCTION_TABLE[this.current_instruction.instruction]
                 this.advance()

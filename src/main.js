@@ -134,11 +134,45 @@ function translate(text) {
     const tokens = lexer.tokenise()
     const instGenerator = new InstructionGenerator(tokens)
     const instructionsList = instGenerator.generate()
-    const assembler = new Assembler(instructionsList)
+    return instructionsList
+}
+
+async function execute(instructions) {
+    const assembler = new Assembler(instructions)
     assembler.convert()
+    const CPU = new Processor(MEMORY)
+    await CPU.execute()
 }
 
 
-translate("inp add num out num dat 1")
-let test = new Processor(MEMORY)
-await test.execute()
+function assembleIntoRAM() {
+    for (let x = 0; x < MEMORY.length; x++) {
+        const memoryUL = document.getElementById("memory")
+        const memoryLI = document.createElement("li")
+        memoryUL.appendChild(memoryLI)
+        memoryLI.textContent = MEMORY[x]
+    }
+}
+
+
+
+const submitButton = document.getElementById("submit-button")
+const runButton = document.getElementById("run-button")
+const assembleButton = document.getElementById("assemble-into-ram-button")
+
+let INPUTTED_INSTRUCTIONS = null
+
+
+submitButton.addEventListener("click", () => {
+    const inputElement = document.getElementById("assembly-code-input")
+    const inputInstructionText = inputElement.value
+    INPUTTED_INSTRUCTIONS = translate(inputInstructionText)
+})
+
+runButton.addEventListener("click", () => {
+    execute(INPUTTED_INSTRUCTIONS)
+    assembleIntoRAM()
+})
+
+assembleButton.addEventListener("click", assembleIntoRAM)
+

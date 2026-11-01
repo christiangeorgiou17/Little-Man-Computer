@@ -133,7 +133,10 @@ export class InstructionGenerator {
         
         let current_instruction = []
         while (this.current_data !== null) {
-            if (this.current_data.token_type === "VAR" || 
+            if (this.current_data === "Error") {
+                instructionList.push("Error")
+                break;
+            } else if (this.current_data.token_type === "VAR" || 
                     (this.current_data.token_type === "NUM" && current_instruction.length > 0)) {
                 current_instruction.push(this.current_data)
                 this.advance();
