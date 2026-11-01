@@ -146,6 +146,10 @@ async function execute(instructions) {
 
 
 function assembleIntoRAM() {
+    const memoryList = document.getElementById("memory")
+    while (memoryList.firstChild !== null) {
+        memoryList.removeChild(memoryList.firstChild)
+    }
     for (let x = 0; x < MEMORY.length; x++) {
         const memoryUL = document.getElementById("memory")
         const memoryLI = document.createElement("li")
@@ -175,4 +179,9 @@ runButton.addEventListener("click", () => {
 })
 
 assembleButton.addEventListener("click", assembleIntoRAM)
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    assembleIntoRAM()
+})
 
