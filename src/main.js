@@ -44,17 +44,18 @@ class Processor {
     load(address) {
         this.accumulator = Number(this.fetchData(address))
     }
+    // There is an underlying problem with how the program counter increments - this adjusts for it but doesnt fix it. Im too tired right now
     branchAlways(address) {
-        this.programCounter = Number(address)
+        this.programCounter = Number(address - 1)
     }
     branchZero(address) {
         if (this.accumulator === 0) {
-            this.programCounter = Number(address)
+            this.programCounter = Number(address - 1)
         }
     }
     branchPositive(address) {
         if (this.accumulator >= 0) {
-            this.programCounter = Number(address)
+            this.programCounter = Number(address - 1)
         }
     }
     async input() {
@@ -89,8 +90,12 @@ class Processor {
     }
 
     showRegisters() {
+        const ACC = document.getElementById("accumulator")
+        const PC = document.getElementById("program-counter")
         const IR = document.getElementById("instruction-register")
         const AR = document.getElementById("address-register")
+        ACC.textContent = this.accumulator;
+        PC.textContent = this.programCounter;
         IR.textContent = this.instructionRegister;
         AR.textContent = this.addressRegister;
     }
