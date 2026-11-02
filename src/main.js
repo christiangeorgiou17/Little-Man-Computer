@@ -146,6 +146,9 @@ function translate(text) {
     const tokens = lexer.tokenise()
     const instGenerator = new InstructionGenerator(tokens)
     const instructionsList = instGenerator.generate()
+    for (let x = 0; x < MEMORY.length; x++) {
+        MEMORY[x] = "000"
+    }
     const assembler = new Assembler(instructionsList)
     assembler.convert()
 }
