@@ -3,6 +3,8 @@ import { Assembler, MEMORY } from "./assembler.js"
 import { InstructionGenerator } from "./instructiongenerator.js"
 
 
+// Wait x seconds
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 class Processor {
     constructor(memory) {
@@ -86,9 +88,19 @@ class Processor {
         outputValue.textContent = this.accumulator
     }
 
+    showRegisters() {
+        const IR = document.getElementById("instruction-register")
+        const AR = document.getElementById("address-register")
+        IR.textContent = this.instructionRegister;
+        AR.textContent = this.addressRegister;
+    }
+
     async execute() {
         while (this.executing) {
+            await wait(500)
             this.fetchNextInstruction()
+            this.showRegisters()
+            await wait(500)
             switch (this.instructionRegister) {
                 case "0":
                     this.halt()
