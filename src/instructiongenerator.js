@@ -145,6 +145,25 @@ export class InstructionGenerator {
                 current_instruction.push(this.current_data);
                 instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
                 current_instruction = []
+            } else if (this.current_data.value === "DAT" && current_instruction.length === 1) {
+                if (this.check_index(this.position + 1)) {
+                    if (this.tokens[this.position + 1].token_type !== "NUM") {
+                        current_instruction.push(this.current_data);
+                        instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
+                        current_instruction = []
+                    } else {
+                        current_instruction.push(this.current_data);
+                        let inst = this.current_data.value
+                        this.advance();
+                        current_instruction.push(this.current_data);
+                        instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, inst, instructionList.length));
+                        current_instruction = []
+                    }
+                } else {
+                    current_instruction.push(this.current_data);
+                    instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
+                    current_instruction = []
+                }
             } else if ((this.current_data.token_type === "INST" && this.check_index(this.position + 1)) &&
                     current_instruction.length <= 1) {
                 current_instruction.push(this.current_data);
@@ -153,18 +172,6 @@ export class InstructionGenerator {
                 current_instruction.push(this.current_data);
                 instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, inst, instructionList.length));
                 current_instruction = []
-            } else if (this.current_data.value === "DAT" && current_instruction.length === 1) {
-                if (this.check_index(this.position + 1)) {
-                    if (this.tokens[this.position + 1].token_type !== "NUM") {
-                        current_instruction.push(this.current_data);
-                        instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
-                        current_instruction = []
-                    }
-                } else {
-                    current_instruction.push(this.current_data);
-                    instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
-                    current_instruction = []
-                }
             } else {
                 instructionList.push("Error")
                 current_instruction = []
