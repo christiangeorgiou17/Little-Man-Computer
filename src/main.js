@@ -7,8 +7,7 @@ import { InstructionGenerator } from "./instructiongenerator.js"
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 class Processor {
-    constructor(memory) {
-        this.memory = memory
+    constructor() {
         // Registers
         this.accumulator = 0
         this.programCounter = 0
@@ -18,14 +17,14 @@ class Processor {
     }
 
     fetchNextInstruction() {
-        let instruction = String(this.memory[this.programCounter])
+        let instruction = String(MEMORY[this.programCounter])
         this.instructionRegister = instruction[0]
         this.addressRegister = instruction.substring(1)
     }
 
     fetchData(memoryAddress) {
         memoryAddress = Number(memoryAddress)
-        let data = this.memory[memoryAddress]
+        let data = MEMORY[memoryAddress]
         return data;
     }
 
@@ -39,7 +38,8 @@ class Processor {
         this.accumulator -= Number(this.fetchData(address))
     }
     store(address) {
-        this.memory[address] = Assembler.format(this.accumulator)
+        MEMORY[Number(address)] = Assembler.format(this.accumulator)
+        assembleIntoRAM()
     }
     load(address) {
         this.accumulator = Number(this.fetchData(address))
@@ -159,7 +159,7 @@ function translate(text) {
 }
 
 async function execute() {
-    const CPU = new Processor(MEMORY)
+    const CPU = new Processor()
     await CPU.execute()
 }
 
@@ -177,6 +177,13 @@ function assembleIntoRAM() {
     }
 }
 
+function resetOutput() {
+    const outputElement = document.getElementById("standard-output")
+    while (outputElement.firstChild !== null) {
+        outputElement.removeChild(outputElement.firstChild)
+    }
+}
+
 
 
 const submitButton = document.getElementById("submit-button")
@@ -188,6 +195,7 @@ submitButton.addEventListener("click", () => {
     const inputElement = document.getElementById("assembly-code-input")
     const inputInstructionText = inputElement.value
     translate(inputInstructionText)
+    resetOutput()
     assembleIntoRAM()
 })
 
