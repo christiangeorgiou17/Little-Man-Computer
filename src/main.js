@@ -184,6 +184,17 @@ function resetOutput() {
     }
 }
 
+function resetRegisters() {
+    const ACC = document.getElementById("accumulator")
+    const PC = document.getElementById("program-counter")
+    const IR = document.getElementById("instruction-register")
+    const AR = document.getElementById("address-register")
+    ACC.textContent = "0";
+    PC.textContent = "0";
+    IR.textContent = "0";
+    AR.textContent = "00";
+}
+
 
 
 const submitButton = document.getElementById("submit-button")
@@ -196,6 +207,7 @@ submitButton.addEventListener("click", () => {
     const inputInstructionText = inputElement.value
     translate(inputInstructionText)
     resetOutput()
+    resetRegisters()
     assembleIntoRAM()
 })
 
