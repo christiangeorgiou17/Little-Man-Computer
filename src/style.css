@@ -1,11 +1,296 @@
 
-
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-ul {
+:root {
+    color-scheme: dark;
+    font-family: Inter, "Segoe UI", sans-serif;
+    --background: #0b1120;
+    --text-color: #e5edf8;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    --panel: #121c2e;
+    --panel-border: #26364e;
+    --muted: #8ea1bb;
+    --accent: #55d6be;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+header {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 38px 32px 26px;
+}
+
+header::before {
+    content: "LITTLE MAN COMPUTER";
+    display: block;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+}
+
+
+main {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.5fr);
+    gap: 20px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px 40px;
+}
+
+#code-input,
+#processor {
+    min-width: 0;
+    padding: 22px;
+    background-color: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+}
+
+#code-input {
+    display: flex;
+    align-content: start;
+    align-items: start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#code-input::before {
+    content: "SOURCE CODE";
+    flex-basis: 100%;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+#assembly-code-input {
+    width: 100%;
+    min-height: 300px;
+    resize: vertical;
+    padding: 16px;
+    border: 1px solid #2b3c55;
+    border-radius: 10px;
+    outline: none;
+    background: #0a1220;
+    color: #d7e5f5;
+    tab-size: 4;
+}
+
+#assembly-code-input:focus,
+#standard-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgb(85 214 190 / 13%);
+}
+
+button {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid #344963;
+    border-radius: 9px;
+    background: #1b2a40;
+    color: #e8f0fa;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent);
+    background: #243951;
+}
+
+button:focus-visible {
+    outline: 3px solid rgb(85 214 190 / 45%);
+    outline-offset: 2px;
+}
+
+#run-button {
+    border-color: #3abda6;
+    background: #087f70;
+}
+
+#run-button:hover {
+    background: #09927f;
+}
+
+#processor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#processor::before {
+    content: "INPUT";
+    margin-bottom: -10px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+#standard-input {
+    width: min(100%, 240px);
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid #2b3c55;
+    border-radius: 9px;
+    outline: none;
+    background: #0a1220;
+    color: var(--text-color);
+    font: inherit;
+}
+
+#standard-input:disabled {
+    opacity: 0.55;
+}
+
+#standard-output {
+    display: flex;
+    min-height: 46px;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+#standard-output:empty::before {
+    content: "Program output will appear here";
+    color: #71849e;
+    font-size: 0.85rem;
+}
+
+#standard-output li {
+    padding: 8px 12px;
+    border: 1px solid #286a66;
+    border-radius: 8px;
+    background: #123b3b;
+    color: #a4f3df;
+    font-family: Consolas, monospace;
+}
+
+#registers {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    list-style: none;
+}
+
+#registers li {
+    min-width: 0;
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid #2b3c55;
+    border-radius: 10px;
+    background: #0d1727;
+    color: #a7f3df;
+    font: 700 1.15rem Consolas, monospace;
+    text-overflow: ellipsis;
+}
+
+#registers li::before {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font: 700 0.65rem Inter, "Segoe UI", sans-serif;
+    letter-spacing: 0.1em;
+}
+
+#registers li:nth-child(1)::before { content: "ACC"; }
+#registers li:nth-child(2)::before { content: "PC"; }
+#registers li:nth-child(3)::before { content: "IR"; }
+#registers li:nth-child(4)::before { content: "AR"; }
+
+#memory {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 6px;
+    padding: 12px;
+    border: 1px solid #25364e;
+    border-radius: 10px;
+    background: #0a1220;
+    list-style: none;
+    counter-reset: memory-address -1;
+}
+
+#memory li {
+    min-width: 0;
+    padding: 7px 3px;
+    border: 1px solid #24344a;
+    border-radius: 6px;
+    background: #111d2e;
+    color: #d5e0ed;
+    text-align: center;
+    font: 0.76rem Consolas, monospace;
+    counter-increment: memory-address;
+}
+
+#memory li::before {
+    content: counter(memory-address, decimal-leading-zero);
+    display: block;
+    margin-bottom: 4px;
+    color: #7287a2;
+    font-size: 0.62rem;
+}
+
+footer {
+    min-height: 20px;
+}
+
+@media (max-width: 850px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    #assembly-code-input {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 520px) {
+    header {
+        padding: 28px 18px 20px;
+    }
+
+    main {
+        gap: 14px;
+        padding: 0 14px 28px;
+    }
+
+    #code-input,
+    #processor {
+        padding: 16px;
+    }
+
+    #registers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #memory {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    button {
+        flex: 1 1 120px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }
