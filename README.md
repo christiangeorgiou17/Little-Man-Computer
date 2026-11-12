@@ -1,6 +1,6 @@
 # Little Man Computer
 
-This is a Little Man Computer assembly emulator created using HTML, CSS, and JavaScript. To view the site, visit: [https://littlemancomputer.christiangeorgiou.com](url)
+This is a Little Man Computer assembly emulator created using HTML, CSS, and JavaScript. To view the site, visit: [https://littlemancomputer.christiangeorgiou.com](https://littlemancomputer.christiangeorgiou.com)
 
 ## What is Assembly?
 
