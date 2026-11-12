@@ -18,3 +18,10 @@ Assembly is a low-level programming language that translates directly into binar
 * **INP (901)**: Takes user input and stores it in the accumulator.
 * **OUT (902)**: Outputs the value in the accumulator to the user.
 * **HLT (000)**: Ends the program.
+
+## Project Structure
+
+* **`Lexer`**: Takes a `String` of instructions and returns a list of `Token`s. - [File](src/lexer.js)
+* **`InstructionGenerator`**: Takes the `Token` list and combines related ones into `Instruction` objects based on the underlying instruction. The `Instruction` objects are: `BranchInstruction`, `OperatorInstruction`, `SystemInstruction`, and `AssignmentInstruction`. - [File](src/instructiongenerator.js)
+* **`Assembler`**: Takes the list of `Instruction` objects and translates them into the denary values of their machine code translation, placing them into their corresponding positions in `MEMORY`. - [File](src/assembler.js)
+* **`Processor`**: Takes the `Memory` and executes each instruction one by one based on the value of `Processor.programCounter`. - [File](src/main.js)
