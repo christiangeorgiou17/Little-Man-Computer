@@ -23,5 +23,5 @@ Assembly is a low-level programming language that translates directly into binar
 
 * **`Lexer`**: Takes a `String` of instructions and returns a list of `Token`s. - [File](src/lexer.js) - [Documentation](/docs/lexer/Lexer.md)
 * **`InstructionGenerator`**: Takes the `Token` list and combines related ones into `Instruction` objects based on the underlying instruction. The `Instruction` objects are: `BranchInstruction`, `OperatorInstruction`, `SystemInstruction`, and `AssignmentInstruction`. - [File](src/instructiongenerator.js) - [Documentation](/docs/instructiongenerator/InstructionGenerator.md)
-* **`Assembler`**: Takes the list of `Instruction` objects and translates them into the denary values of their machine code translation, placing them into their corresponding positions in `MEMORY`. - [File](src/assembler.js)
+* **`Assembler`**: Takes the list of `Instruction` objects and translates them into the denary values of their machine code translation, placing them into their corresponding positions in `MEMORY`. - [File](src/assembler.js) - [Documentation](/docs/assembler/assembler.md)
 * **`Processor`**: Takes the `Memory` and executes each instruction one by one based on the value of `Processor.programCounter`. - [File](src/main.js)
