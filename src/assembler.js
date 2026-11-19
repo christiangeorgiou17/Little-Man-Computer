@@ -40,16 +40,16 @@ export class Assembler {
     constructor(instructions) {
         this.instructions = instructions;
         this.position = -1
-        this.current_instruction = null
+        this.currentInstruction = null
         this.advance()
     }
 
     advance() {
         this.position += 1
         if (this.position < this.instructions.length) {
-            this.current_instruction = this.instructions[this.position]
+            this.currentInstruction = this.instructions[this.position]
         } else {
-            this.current_instruction = null;
+            this.currentInstruction = null;
         }
     }
 
@@ -82,22 +82,22 @@ export class Assembler {
 
     convert() {
 
-        while (this.current_instruction !== null && this.instructions !== "Error") {
-            if (this.current_instruction instanceof SystemInstruction) {
-                MEMORY[this.current_instruction.memoryLocation] = INSTRUCTION_TABLE[this.current_instruction.instruction]
+        while (this.currentInstruction !== null && this.instructions !== "Error") {
+            if (this.currentInstruction instanceof SystemInstruction) {
+                MEMORY[this.currentInstruction.memoryLocation] = INSTRUCTION_TABLE[this.currentInstruction.instruction]
                 this.advance()
-            } else if (this.current_instruction instanceof AssignmentInstruction) {
-                MEMORY[this.current_instruction.memoryLocation] = Assembler.format(this.current_instruction.value)
+            } else if (this.currentInstruction instanceof AssignmentInstruction) {
+                MEMORY[this.currentInstruction.memoryLocation] = Assembler.format(this.currentInstruction.value)
                 this.advance()
-            } else if (this.current_instruction instanceof BranchInstruction) {
-                let branchLocation = this.findMemoryLocation(this.current_instruction.branchTo, "BRANCH")
-                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assembler.format(branchLocation, 2)
-                MEMORY[this.current_instruction.memoryLocation] = formatted
+            } else if (this.currentInstruction instanceof BranchInstruction) {
+                let branchLocation = this.findMemoryLocation(this.currentInstruction.branchTo, "BRANCH")
+                let formatted = INSTRUCTION_TABLE[this.currentInstruction.instruction] + Assembler.format(branchLocation, 2)
+                MEMORY[this.currentInstruction.memoryLocation] = formatted
                 this.advance()
-            } else if (this.current_instruction instanceof OperatorInstruction) {
-                let varLocation = this.findMemoryLocation(this.current_instruction.variable, "VAR")
-                let formatted = INSTRUCTION_TABLE[this.current_instruction.instruction] + Assembler.format(varLocation, 2)
-                MEMORY[this.current_instruction.memoryLocation] = formatted
+            } else if (this.currentInstruction instanceof OperatorInstruction) {
+                let varLocation = this.findMemoryLocation(this.currentInstruction.variable, "VAR")
+                let formatted = INSTRUCTION_TABLE[this.currentInstruction.instruction] + Assembler.format(varLocation, 2)
+                MEMORY[this.currentInstruction.memoryLocation] = formatted
                 this.advance()
             }
         }

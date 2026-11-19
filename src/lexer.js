@@ -2,15 +2,15 @@ import { INSTRUCTIONS } from "./instructiongenerator.js";
 
 
 class Token {
-    constructor(token_type, value=null) {
-        this.token_type = token_type;
+    constructor(tokenType, value=null) {
+        this.tokenType = tokenType;
         this.value = value;
     }
     toString() {
         if (this.value !== null) {
-            return `Token(type=${this.token_type}, value=${this.value})`;
+            return `Token(type=${this.tokenType}, value=${this.value})`;
         } else {
-            return `Token(type=${this.token_type})`
+            return `Token(type=${this.tokenType})`
         }
     }
 }
@@ -28,7 +28,7 @@ export class Lexer {
             this.textList[x] = this.textList[x].toUpperCase()
         }
         this.position = -1;
-        this.current_data = null
+        this.currentData = null
 
         this.advance()
     }
@@ -36,24 +36,24 @@ export class Lexer {
     advance() {
         this.position += 1
         if (this.position < this.textList.length) {
-            this.current_data = this.textList[this.position]
+            this.currentData = this.textList[this.position]
         } else {
-            this.current_data = null;
+            this.currentData = null;
         }
     }
 
     tokenise() {
         let tokenList = []
 
-        while (this.current_data !== null) {
-            if (INSTRUCTIONS.includes(this.current_data)) {
-                tokenList.push(new Token("INST", this.current_data))
+        while (this.currentData !== null) {
+            if (INSTRUCTIONS.includes(this.currentData)) {
+                tokenList.push(new Token("INST", this.currentData))
                 this.advance()
-            } else if (!isNaN(this.current_data)) {
-                tokenList.push(new Token("NUM", Number(this.current_data)))
+            } else if (!isNaN(this.currentData)) {
+                tokenList.push(new Token("NUM", Number(this.currentData)))
                 this.advance()
             } else {
-                tokenList.push(new Token("VAR", this.current_data))
+                tokenList.push(new Token("VAR", this.currentData))
                 this.advance()
             }
         }

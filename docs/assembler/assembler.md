@@ -15,11 +15,11 @@ The initialisation of the `Assembler` class, taking a list of `Instruction` obje
 #### Attributes
 
 * **`this.position`**: An integer representing the location of the element in `this.instructions` that is to be translated into machine code. It is initialised to `-1` and advanced immediately in the constructor.
-* **`this.current_instruction`**: The element at `this.position` in `this.instructions`. It is initially set to `null`.
+* **`this.currentInstruction`**: The element at `this.position` in `this.instructions`. It is initially set to `null`.
 
 ### **advance**
 
-This method increments `this.position` by one to select the next instruction in `this.instructions`. Before assigning the new value to `this.current_instruction`, it checks whether the position is valid. If the position is greater than or equal to the length of `this.instructions`, `this.current_instruction` is set to `null`; otherwise, it is set to the element at that index.
+This method increments `this.position` by one to select the next instruction in `this.instructions`. Before assigning the new value to `this.currentInstruction`, it checks whether the position is valid. If the position is greater than or equal to the length of `this.instructions`, `this.currentInstruction` is set to `null`; otherwise, it is set to the element at that index.
 
 ### **format**
 
@@ -49,6 +49,6 @@ A function that uses a linear search to determine the memory location associated
 
 ### **convert**
 
-The `convert` method iterates through `this.instructions` while `this.current_instruction` is not `null`. It checks the class of each instruction and converts it into a three-character decimal machine-code string before storing it in the appropriate location in `MEMORY`.
+The `convert` method iterates through `this.instructions` while `this.currentInstruction` is not `null`. It checks the class of each instruction and converts it into a three-character decimal machine-code string before storing it in the appropriate location in `MEMORY`.
 
 System instructions are stored directly using `INSTRUCTION_TABLE`. Assignment instructions store their value using `Assembler.format`. Branch instructions use `findMemoryLocation` to find the labelled memory location and combine it with the branch instruction code. Operator instructions use `findMemoryLocation` to find the associated variable's memory location and combine it with the operator instruction code.

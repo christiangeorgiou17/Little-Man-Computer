@@ -95,18 +95,18 @@ export class InstructionGenerator {
     constructor(tokenList) {
         this.tokens = tokenList;
         this.position = -1;
-        this.current_data = null;
+        this.currentData = null;
         this.advance()
     }
     advance() {
         this.position += 1
         if (this.position < this.tokens.length) {
-            this.current_data = this.tokens[this.position]
+            this.currentData = this.tokens[this.position]
         } else {
-            this.current_data = null;
+            this.currentData = null;
         }
     }
-    check_index(index) {
+    checkIndex(index) {
         if (index < 0 || index >= this.tokens.length) {
             return false;
         } else {
@@ -114,7 +114,7 @@ export class InstructionGenerator {
         }
     }
 
-    static choseInstructionType(tokenList, instruction, memorylocation) {
+    static chooseInstructionType(tokenList, instruction, memorylocation) {
         if (OPERATOR_INSTRUCTIONS.includes(instruction)) {
             return new OperatorInstruction(tokenList, instruction, memorylocation)
         } else if (SYSTEM_INSTRUCTIONS.includes(instruction)) {
@@ -131,50 +131,50 @@ export class InstructionGenerator {
     generate() {
         let instructionList = []
         
-        let current_instruction = []
-        while (this.current_data !== null) {
-            if (this.current_data === "Error") {
+        let currentInstruction = []
+        while (this.currentData !== null) {
+            if (this.currentData === "Error") {
                 instructionList.push("Error")
                 break;
-            } else if (this.current_data.token_type === "VAR" || 
-                    (this.current_data.token_type === "NUM" && current_instruction.length > 0)) {
-                current_instruction.push(this.current_data)
-            } else if (((this.current_data.value === "INP" || 
-                    this.current_data.value === "OUT" || this.current_data.value === "HLT") &&
-                    current_instruction.length <= 1)) {
-                current_instruction.push(this.current_data);
-                instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
-                current_instruction = []
-            } else if (this.current_data.value === "DAT" && current_instruction.length === 1) {
-                if (this.check_index(this.position + 1)) {
-                    if (this.tokens[this.position + 1].token_type !== "NUM") {
-                        current_instruction.push(this.current_data);
-                        instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
-                        current_instruction = []
+            } else if (this.currentData.tokenType === "VAR" || 
+                    (this.currentData.tokenType === "NUM" && currentInstruction.length > 0)) {
+                currentInstruction.push(this.currentData)
+            } else if (((this.currentData.value === "INP" || 
+                    this.currentData.value === "OUT" || this.currentData.value === "HLT") &&
+                    currentInstruction.length <= 1)) {
+                currentInstruction.push(this.currentData);
+                instructionList.push(InstructionGenerator.chooseInstructionType(currentInstruction, this.currentData.value, instructionList.length));
+                currentInstruction = []
+            } else if (this.currentData.value === "DAT" && currentInstruction.length === 1) {
+                if (this.checkIndex(this.position + 1)) {
+                    if (this.tokens[this.position + 1].tokenType !== "NUM") {
+                        currentInstruction.push(this.currentData);
+                        instructionList.push(InstructionGenerator.chooseInstructionType(currentInstruction, this.currentData.value, instructionList.length));
+                        currentInstruction = []
                     } else {
-                        current_instruction.push(this.current_data);
-                        let inst = this.current_data.value
+                        currentInstruction.push(this.currentData);
+                        let inst = this.currentData.value
                         this.advance();
-                        current_instruction.push(this.current_data);
-                        instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, inst, instructionList.length));
-                        current_instruction = []
+                        currentInstruction.push(this.currentData);
+                        instructionList.push(InstructionGenerator.chooseInstructionType(currentInstruction, inst, instructionList.length));
+                        currentInstruction = []
                     }
                 } else {
-                    current_instruction.push(this.current_data);
-                    instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, this.current_data.value, instructionList.length));
-                    current_instruction = []
+                    currentInstruction.push(this.currentData);
+                    instructionList.push(InstructionGenerator.chooseInstructionType(currentInstruction, this.currentData.value, instructionList.length));
+                    currentInstruction = []
                 }
-            } else if ((this.current_data.token_type === "INST" && this.check_index(this.position + 1)) &&
-                    current_instruction.length <= 1) {
-                current_instruction.push(this.current_data);
-                let inst = this.current_data.value
+            } else if ((this.currentData.tokenType === "INST" && this.checkIndex(this.position + 1)) &&
+                    currentInstruction.length <= 1) {
+                currentInstruction.push(this.currentData);
+                let inst = this.currentData.value
                 this.advance();
-                current_instruction.push(this.current_data);
-                instructionList.push(InstructionGenerator.choseInstructionType(current_instruction, inst, instructionList.length));
-                current_instruction = []
+                currentInstruction.push(this.currentData);
+                instructionList.push(InstructionGenerator.chooseInstructionType(currentInstruction, inst, instructionList.length));
+                currentInstruction = []
             } else {
                 instructionList.push("Error")
-                current_instruction = []
+                currentInstruction = []
             }
             this.advance();
         }

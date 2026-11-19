@@ -10,7 +10,7 @@ The initialisation of the class `Token`, taking one or two parameters.
 
 #### Parameters
 
-* **`token_type`**: The type of token this unit is; it could be `"VAR"` for symbolic address, `"INST"` for assembly instruction, or `"NUM"` for a numerical value, referencing an address. This will always be a `String`.
+* **`tokenType`**: The type of token this unit is; it could be `"VAR"` for symbolic address, `"INST"` for assembly instruction, or `"NUM"` for a numerical value, referencing an address. This will always be a `String`.
 * **`value`**: The value of the token, this could be the name of the instruction or symbolic address. This would be of type `String` or `Number`.
 
 ### **toString**
@@ -19,7 +19,7 @@ A string representation of a `Token` object.
 
 #### Output
 
-* A `String` containing information about the `Token` instance, including the `token_type` and `value` if value is not null.
+* A `String` containing information about the `Token` instance, including the `tokenType` and `value` if value is not null.
 
 ## Use case
 
